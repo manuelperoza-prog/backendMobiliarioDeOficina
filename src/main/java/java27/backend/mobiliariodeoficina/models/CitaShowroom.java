@@ -1,7 +1,6 @@
 package java27.backend.mobiliariodeoficina.models;
 
-import java27.backend.mobiliariodeoficina.models.EstadoCita;
-import java27.backend.mobiliariodeoficina.models.TipoAsesoria;
+import java27.backend.mobiliariodeoficina.models.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,17 +22,16 @@ public class CitaShowroom {
     @Column(name = "codigo_cita", nullable = false, unique = true, length = 30)
     private String codigoCita;
 
-    @Column(name = "nombre_cliente", nullable = false, length = 150)
-    private String nombreCliente;
+    // Relación directa: Muchas citas pueden pertenecer a un mismo Usuario
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private User usuario;
 
     @Column(length = 150)
     private String empresa;
 
     @Column(nullable = false, length = 30)
-    private String telefono;
-
-    @Column(nullable = false, length = 120)
-    private String email;
+    private String telefono; // Lo mantenemos porque en User no tienes teléfono
 
     @Column(name = "fecha_hora", nullable = false)
     private LocalDateTime fechaHora;

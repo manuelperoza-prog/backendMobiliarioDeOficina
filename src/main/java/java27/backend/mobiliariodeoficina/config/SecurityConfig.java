@@ -46,14 +46,15 @@ public class SecurityConfig {
 
                         // --- NUEVAS RUTAS PÚBLICAS DEL CATÁLOGO Y SHOWROOM ---
                         .requestMatchers(HttpMethod.GET, "/api/v1/productos/**", "/api/v1/categorias/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/v1/citas").permitAll()
+
+                        .requestMatchers(HttpMethod.POST, "/api/v1/citas").authenticated()
 
                         // --- RUTAS PROTEGIDAS ADMINISTRATIVAS ---
-                        .requestMatchers(HttpMethod.POST, "/api/v1/productos/**").hasAnyRole("ADMIN", "ASESOR_VENTAS")
-                        .requestMatchers(HttpMethod.PUT, "/api/v1/productos/**").hasAnyRole("ADMIN", "ASESOR_VENTAS")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/productos/**").hasAnyRole("ADMIN", "EMPLOYE")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/productos/**").hasAnyRole("ADMIN", "EMPLOYE")
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/productos/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/api/v1/citas/**").hasAnyRole("ADMIN", "ASESOR_VENTAS")
-                        .requestMatchers(HttpMethod.PATCH, "/api/v1/citas/**").hasAnyRole("ADMIN", "ASESOR_VENTAS")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/citas/**").hasAnyRole("ADMIN", "EMPLOYE")
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/citas/**").hasAnyRole("ADMIN", "EMPLOYE")
 
                         // Todo lo demás requiere autenticación
                         .anyRequest().authenticated()
