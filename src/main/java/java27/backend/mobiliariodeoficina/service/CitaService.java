@@ -1,5 +1,6 @@
 package java27.backend.mobiliariodeoficina.service;
 
+import java27.backend.mobiliariodeoficina.models.EstadoCita;
 import java27.backend.mobiliariodeoficina.models.dto.CitaRequest;
 import java27.backend.mobiliariodeoficina.models.CitaShowroom;
 import java27.backend.mobiliariodeoficina.models.TipoAsesoria;
@@ -46,5 +47,48 @@ public class CitaService {
         citaRepository.save(nuevaCita);
 
         return codigoUnico;
+    }
+
+    @Transactional
+    public void eliminarCita(String codigoCita) {
+        CitaShowroom cita = obtenerCitaValidada(codigoCita);
+        citaRepository.delete(cita);
+    }
+
+    @Transactional
+    public String modificarCita(String codigoCita, CitaRequest dto) {
+        CitaShowroom cita = obtenerCitaValidada(codigoCita);
+
+        cita.setEmpresa(dto.getEmpresa());
+        cita.setTelefono(dto.getTelefono());
+        cita.setFechaHora(dto.getFechaHora());
+        cita.setTipoAsesoria(TipoAsesoria.valueOf(dto.getTipoAsesoria().toUpperCase()));
+        cita.setNotas(dto.getNotas());
+
+        citaRepository.save(cita);
+        return cita.getCodigoCita();
+    }
+
+    // Método centralizado de seguridad y reglas de negocio
+    private CitaShowroom obtenerCitaValidada(String codigoCita) {
+        String identificadorLogueado = SecurityContextHolder.getContext().getAuthentication().getName();
+        User usuario = userRepository.findByUsername(identificadorLogueado)
+                .or(() -> userRepository.findByEmail(identificadorLogueado))
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        CitaShowroom cita = citaRepository.findByCodigoCita(codigoCita)
+                .orElseThrow(() -> new RuntimeException("Cita no encontrada: " + codigoCita));
+
+        // 1. Regla de Seguridad: La cita debe ser de este cliente
+        if (!cita.getUsuario().getId().equals(usuario.getId())) {
+            throw new RuntimeException("Acceso denegado: No puedes gestionar citas de otros clientes");
+        }
+
+        // 2. Regla de Negocio: Solo se edita/borra si está Pendiente o Confirmada
+        if (cita.getEstado() == EstadoCita.COMPLETADA || cita.getEstado() == EstadoCita.CANCELADA) {
+            throw new RuntimeException("Operación no permitida: La cita ya está " + cita.getEstado().name());
+        }
+
+        return cita;
     }
 }

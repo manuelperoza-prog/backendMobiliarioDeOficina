@@ -50,12 +50,16 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/v1/citas").authenticated()
 
                         // --- RUTAS PROTEGIDAS ADMINISTRATIVAS ---
-                        .requestMatchers(HttpMethod.POST, "/api/v1/productos/**").hasAnyRole("ADMIN", "EMPLOYE")
-                        .requestMatchers(HttpMethod.PUT, "/api/v1/productos/**").hasAnyRole("ADMIN", "EMPLOYE")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/productos/**").hasAnyRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/productos/**").hasAnyRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/productos/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/api/v1/citas/**").hasAnyRole("ADMIN", "EMPLOYE")
-                        .requestMatchers(HttpMethod.PATCH, "/api/v1/citas/**").hasAnyRole("ADMIN", "EMPLOYE")
-
+                        .requestMatchers(HttpMethod.GET, "/api/v1/citas/**").hasAnyRole("ADMIN")
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/citas/**").hasAnyRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/categorias").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/productos/**").hasAnyRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/categorias/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/categorias/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/productos/**").hasRole("ADMIN")
                         // Todo lo demás requiere autenticación
                         .anyRequest().authenticated()
                 )

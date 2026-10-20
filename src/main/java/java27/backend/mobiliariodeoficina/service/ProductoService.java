@@ -74,6 +74,49 @@ public class ProductoService {
         return mapearADTO(productoGuardado);
     }
 
+    @Transactional
+    public ProductoResponse actualizarProducto(Long id, ProductoRequest dto) {
+        // Buscamos el producto existente
+        Producto producto = productoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id));
+
+        // Buscamos la categoría por si la cambió
+        Categoria categoria = categoriaRepository.findById(dto.getCategoriaId())
+                .orElseThrow(() -> new RuntimeException("Categoría no encontrada con ID: " + dto.getCategoriaId()));
+
+        // Actualizamos los datos básicos
+        producto.setNombre(dto.getNombre());
+        producto.setDescripcion(dto.getDescripcion());
+        producto.setCategoria(categoria);
+        producto.setTipoEspacio(TipoEspacio.valueOf(dto.getTipoEspacio().toUpperCase()));
+        producto.setPrecioReferencialUsd(dto.getPrecioReferencialUsd());
+        producto.setEnShowroom(dto.getEnShowroom() != null ? dto.getEnShowroom() : true);
+        producto.setMaterial(dto.getMaterial());
+        producto.setDimensionesEstandar(dto.getDimensionesEstandar());
+
+        // Manejo de Imágenes: Borramos las viejas y guardamos las nuevas
+        producto.getImagenes().clear(); // Hibernate borrará las antiguas automáticamente
+
+        if (dto.getImagenes() != null && !dto.getImagenes().isEmpty()) {
+            dto.getImagenes().forEach(url -> {
+                producto.agregarImagen(ProductoImagen.builder().urlImagen(url).build());
+            });
+        }
+
+        return mapearADTO(productoRepository.save(producto));
+    }
+
+    @Transactional
+    public void eliminarProducto(Long id) {
+        // Buscamos el producto primero para asegurar que existe
+        Producto producto = productoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id));
+
+        // Al eliminar el producto, gracias al orphanRemoval=true y CascadeType.ALL
+        // en la entidad, las imágenes asociadas se borrarán automáticamente.
+        productoRepository.delete(producto);
+    }
+
     // Transformador manual Entidad -> DTO (Evita bucles y oculta datos internos)
     private ProductoResponse mapearADTO(Producto producto) {
         List<String> urls = producto.getImagenes().stream()
@@ -84,6 +127,7 @@ public class ProductoService {
                 .id(producto.getId())
                 .nombre(producto.getNombre())
                 .descripcion(producto.getDescripcion())
+                .categoriaId(producto.getCategoria().getId())         // <--- LÍNEA AGREGADA
                 .categoriaNombre(producto.getCategoria().getNombre()) // Sacamos solo el nombre
                 .tipoEspacio(producto.getTipoEspacio().name())
                 .precioReferencialUsd(producto.getPrecioReferencialUsd())

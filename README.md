@@ -1,4 +1,4 @@
-# 📚 Documentación de API - Mobiliario de Oficina Backend
+z# 📚 Documentación de API - Mobiliario de Oficina Backend
 
 Esta es la especificación técnica de los endpoints del backend para el showroom de mobiliario corporativo.
 

@@ -30,4 +30,24 @@ public class CitaController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(respuesta);
     }
+
+    @PutMapping("/{codigoCita}")
+    public ResponseEntity<Map<String, String>> modificarCita(
+            @PathVariable String codigoCita,
+            @Valid @RequestBody CitaRequest dto) {
+
+        citaService.modificarCita(codigoCita, dto);
+        Map<String, String> respuesta = new HashMap<>();
+        respuesta.put("mensaje", "Cita modificada con éxito");
+        return ResponseEntity.ok(respuesta);
+    }
+
+    // Ruta Protegida: Cliente cancela/elimina su propia cita
+    @DeleteMapping("/{codigoCita}")
+    public ResponseEntity<Map<String, String>> eliminarCita(@PathVariable String codigoCita) {
+        citaService.eliminarCita(codigoCita);
+        Map<String, String> respuesta = new HashMap<>();
+        respuesta.put("mensaje", "Cita eliminada con éxito");
+        return ResponseEntity.ok(respuesta);
+    }
 }

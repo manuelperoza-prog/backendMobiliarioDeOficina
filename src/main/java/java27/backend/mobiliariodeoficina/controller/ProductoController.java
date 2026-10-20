@@ -9,7 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/productos")
@@ -40,5 +42,24 @@ public class ProductoController {
     public ResponseEntity<ProductoResponse> crearProducto(@Valid @RequestBody ProductoRequest dto) {
         ProductoResponse nuevoProducto = productoService.crearProducto(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevoProducto);
+    }
+
+    // Ruta Protegida: Editar producto existente
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductoResponse> actualizarProducto(
+            @PathVariable Long id,
+            @Valid @RequestBody ProductoRequest dto) {
+        return ResponseEntity.ok(productoService.actualizarProducto(id, dto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Map<String, String>> eliminarProducto(@PathVariable Long id) {
+        productoService.eliminarProducto(id);
+
+        // Devolvemos un JSON de éxito
+        Map<String, String> respuesta = new HashMap<>();
+        respuesta.put("mensaje", "Producto eliminado con éxito");
+
+        return ResponseEntity.ok(respuesta);
     }
 }
