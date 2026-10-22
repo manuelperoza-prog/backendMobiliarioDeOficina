@@ -46,10 +46,10 @@ public class SecurityConfig {
 
                         // --- NUEVAS RUTAS PÚBLICAS DEL CATÁLOGO Y SHOWROOM ---
                         .requestMatchers(HttpMethod.GET, "/api/v1/productos/**", "/api/v1/categorias/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/cotizaciones").permitAll()
 
                         .requestMatchers(HttpMethod.POST, "/api/v1/citas").authenticated()
 
-                        // --- RUTAS PROTEGIDAS ADMINISTRATIVAS ---
                         // --- RUTAS PROTEGIDAS ADMINISTRATIVAS ---
                         .requestMatchers(HttpMethod.POST, "/api/v1/productos", "/api/v1/productos/**").hasAnyAuthority("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/v1/productos/**").hasAnyAuthority("ADMIN")
@@ -61,6 +61,9 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/v1/categorias").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/v1/categorias/**").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/categorias/**").hasAuthority("ADMIN")
+
+                        .requestMatchers(HttpMethod.GET, "/api/v1/cotizaciones").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/cotizaciones/**").hasAuthority("ADMIN")
                         // Todo lo demás requiere autenticación
                         .anyRequest().authenticated()
                 )
