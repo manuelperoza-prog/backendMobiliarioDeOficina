@@ -82,4 +82,8 @@ public class CotizacionService {
         cotizacion.setEstado(nuevoEstado);
         return cotizacionRepository.save(cotizacion);
     }
+
+    public List<Cotizacion> obtenerMisCotizaciones(String email) {
+        return cotizacionRepository.findByEmailOrderByFechaCreacionDesc(email);
+    }
 }

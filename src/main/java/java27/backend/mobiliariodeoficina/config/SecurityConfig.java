@@ -34,15 +34,20 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults()) // Busca el bean corsConfigurationSource() que está abajo
                 .authorizeHttpRequests(auth -> auth
-                        // Rutas públicas de autenticación y documentación
+                        // 1. Documentación y errores (quitamos el /auth/** de aquí)
                         .requestMatchers(
-                                "/auth/**",
                                 "/v3/api-docs/**",
                                 "/v3/api-docs.yaml",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
                                 "/error"
                         ).permitAll()
+
+                        // 2. Ruta específica del perfil PROTEGIDA (debe ir antes del general /auth/**)
+                        .requestMatchers(HttpMethod.GET, "/auth/v1/me").authenticated()
+
+                        // 3. El resto de rutas de auth (login, register) PÚBLICAS
+                        .requestMatchers("/auth/**").permitAll()
 
                         // --- NUEVAS RUTAS PÚBLICAS DEL CATÁLOGO Y SHOWROOM ---
                         .requestMatchers(HttpMethod.GET, "/api/v1/productos/**", "/api/v1/categorias/**").permitAll()
@@ -64,7 +69,8 @@ public class SecurityConfig {
 
                         .requestMatchers(HttpMethod.GET, "/api/v1/cotizaciones").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.PATCH, "/api/v1/cotizaciones/**").hasAuthority("ADMIN")
-                        // Todo lo demás requiere autenticación
+
+                        // Todo lo demás requiere autenticación (esto incluye tus nuevos endpoints de favoritos)
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session

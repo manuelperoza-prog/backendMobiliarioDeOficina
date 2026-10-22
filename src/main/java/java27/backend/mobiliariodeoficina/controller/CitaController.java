@@ -1,5 +1,6 @@
 package java27.backend.mobiliariodeoficina.controller;
 
+import java27.backend.mobiliariodeoficina.models.CitaShowroom;
 import java27.backend.mobiliariodeoficina.models.dto.CitaRequest;
 import java27.backend.mobiliariodeoficina.service.CitaService;
 import jakarta.validation.Valid;
@@ -8,7 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -49,5 +52,11 @@ public class CitaController {
         Map<String, String> respuesta = new HashMap<>();
         respuesta.put("mensaje", "Cita eliminada con éxito");
         return ResponseEntity.ok(respuesta);
+    }
+
+    @GetMapping("/mis-citas")
+    public ResponseEntity<List<CitaShowroom>> obtenerMisCitas(Principal principal) {
+        // Corrección aplicada aquí: uso de la variable citaService en minúscula
+        return ResponseEntity.ok(citaService.obtenerMisCitas(principal.getName()));
     }
 }

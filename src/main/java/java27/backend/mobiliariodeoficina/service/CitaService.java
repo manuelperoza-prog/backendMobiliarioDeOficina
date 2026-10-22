@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -90,5 +91,10 @@ public class CitaService {
         }
 
         return cita;
+    }
+
+    public List<CitaShowroom> obtenerMisCitas(String email) {
+        // Corrección aplicada aquí: uso de la variable citaRepository en minúscula
+        return citaRepository.findByEmailOrderByFechaCreacionDesc(email);
     }
 }

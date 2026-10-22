@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -38,5 +39,10 @@ public class CotizacionController {
 
         Cotizacion cotizacionActualizada = cotizacionService.actualizarEstado(id, request.getEstado());
         return ResponseEntity.ok(cotizacionActualizada);
+    }
+
+    @GetMapping("/mis-cotizaciones")
+    public ResponseEntity<List<Cotizacion>> obtenerMisCotizaciones(Principal principal) {
+        return ResponseEntity.ok(cotizacionService.obtenerMisCotizaciones(principal.getName()));
     }
 }

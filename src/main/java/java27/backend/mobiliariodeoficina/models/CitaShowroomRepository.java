@@ -20,4 +20,6 @@ public interface CitaShowroomRepository extends JpaRepository<CitaShowroom, Long
 
     // Para ver las citas programadas a partir de hoy
     List<CitaShowroom> findByFechaHoraAfterOrderByFechaHoraAsc(LocalDateTime fecha);
+
+    List<CitaShowroom> findByEmailOrderByFechaCreacionDesc(String email);
 }
