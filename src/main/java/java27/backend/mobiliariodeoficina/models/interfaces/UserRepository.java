@@ -1,7 +1,8 @@
-package java27.backend.mobiliariodeoficina.models.user;
+package java27.backend.mobiliariodeoficina.models.interfaces;
 
 import java.util.Optional;
 
+import java27.backend.mobiliariodeoficina.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<User, Integer>{

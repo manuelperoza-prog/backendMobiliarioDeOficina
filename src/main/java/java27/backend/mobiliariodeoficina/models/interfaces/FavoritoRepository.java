@@ -1,6 +1,7 @@
-package java27.backend.mobiliariodeoficina.models;
+package java27.backend.mobiliariodeoficina.models.interfaces;
 
-import java27.backend.mobiliariodeoficina.models.user.User;
+import java27.backend.mobiliariodeoficina.models.Favorito;
+import java27.backend.mobiliariodeoficina.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

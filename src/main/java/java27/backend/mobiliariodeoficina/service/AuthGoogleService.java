@@ -1,4 +1,4 @@
-package java27.backend.mobiliariodeoficina.auth.service;
+package java27.backend.mobiliariodeoficina.service;
 
 import java.util.UUID;
 
@@ -8,13 +8,13 @@ import org.springframework.stereotype.Service;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 
-import java27.backend.mobiliariodeoficina.auth.DTO.AuthResponse;
-import java27.backend.mobiliariodeoficina.auth.DTO.GoogleLoginRequest;
+import java27.backend.mobiliariodeoficina.models.dto.AuthResponse;
+import java27.backend.mobiliariodeoficina.models.dto.GoogleLoginRequest;
 import java27.backend.mobiliariodeoficina.jwt.GoogleTokenVerifierService;
 import java27.backend.mobiliariodeoficina.jwt.JwtService;
-import java27.backend.mobiliariodeoficina.models.user.Role;
-import java27.backend.mobiliariodeoficina.models.user.User;
-import java27.backend.mobiliariodeoficina.models.user.UserRepository;
+import java27.backend.mobiliariodeoficina.models.enums.Role;
+import java27.backend.mobiliariodeoficina.models.User;
+import java27.backend.mobiliariodeoficina.models.interfaces.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 

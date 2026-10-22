@@ -1,7 +1,6 @@
 package java27.backend.mobiliariodeoficina.models.dto;
 
-import java27.backend.mobiliariodeoficina.models.EstadoCita;
-import java27.backend.mobiliariodeoficina.models.TipoAsesoria;
+import java27.backend.mobiliariodeoficina.models.enums.EstadoCita;
 import lombok.*;
 
 import java.time.LocalDateTime;

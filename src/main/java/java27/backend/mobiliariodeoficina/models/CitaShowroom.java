@@ -1,6 +1,7 @@
 package java27.backend.mobiliariodeoficina.models;
 
-import java27.backend.mobiliariodeoficina.models.user.User;
+import java27.backend.mobiliariodeoficina.models.enums.EstadoCita;
+import java27.backend.mobiliariodeoficina.models.enums.TipoAsesoria;
 import jakarta.persistence.*;
 import lombok.*;
 

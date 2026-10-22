@@ -2,10 +2,10 @@ package java27.backend.mobiliariodeoficina.service;
 
 import java27.backend.mobiliariodeoficina.models.Favorito;
 import java27.backend.mobiliariodeoficina.models.Producto;
-import java27.backend.mobiliariodeoficina.models.user.User;
-import java27.backend.mobiliariodeoficina.models.FavoritoRepository;
-import java27.backend.mobiliariodeoficina.models.ProductoRepository;
-import java27.backend.mobiliariodeoficina.models.user.UserRepository;
+import java27.backend.mobiliariodeoficina.models.User;
+import java27.backend.mobiliariodeoficina.models.interfaces.FavoritoRepository;
+import java27.backend.mobiliariodeoficina.models.interfaces.ProductoRepository;
+import java27.backend.mobiliariodeoficina.models.interfaces.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

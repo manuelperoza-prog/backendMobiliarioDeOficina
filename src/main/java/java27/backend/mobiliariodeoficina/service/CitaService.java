@@ -1,12 +1,12 @@
 package java27.backend.mobiliariodeoficina.service;
 
-import java27.backend.mobiliariodeoficina.models.EstadoCita;
+import java27.backend.mobiliariodeoficina.models.enums.EstadoCita;
 import java27.backend.mobiliariodeoficina.models.dto.CitaRequest;
 import java27.backend.mobiliariodeoficina.models.CitaShowroom;
-import java27.backend.mobiliariodeoficina.models.TipoAsesoria;
-import java27.backend.mobiliariodeoficina.models.user.User;
-import java27.backend.mobiliariodeoficina.models.user.UserRepository;
-import java27.backend.mobiliariodeoficina.models.CitaShowroomRepository;
+import java27.backend.mobiliariodeoficina.models.enums.TipoAsesoria;
+import java27.backend.mobiliariodeoficina.models.User;
+import java27.backend.mobiliariodeoficina.models.interfaces.UserRepository;
+import java27.backend.mobiliariodeoficina.models.interfaces.CitaShowroomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -95,5 +95,20 @@ public class CitaService {
 
     public List<CitaShowroom> obtenerMisCitas(String email) {
         return citaRepository.findByUsuarioEmailOrderByFechaHoraDesc(email);
+    }
+
+    // GET: Obtiene todas las citas para el panel de administrador
+    public List<CitaShowroom> obtenerTodasLasCitas() {
+        return citaRepository.findAll();
+    }
+
+    // PATCH: Actualiza solo el estado
+    @Transactional
+    public void actualizarEstadoCita(String codigoCita, EstadoCita nuevoEstado) {
+        CitaShowroom cita = citaRepository.findByCodigoCita(codigoCita)
+                .orElseThrow(() -> new RuntimeException("Cita no encontrada: " + codigoCita));
+
+        cita.setEstado(nuevoEstado);
+        citaRepository.save(cita);
     }
 }

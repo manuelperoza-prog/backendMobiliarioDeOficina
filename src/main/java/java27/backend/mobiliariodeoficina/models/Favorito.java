@@ -1,7 +1,6 @@
 package java27.backend.mobiliariodeoficina.models;
 
 import jakarta.persistence.*;
-import java27.backend.mobiliariodeoficina.models.user.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

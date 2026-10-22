@@ -6,9 +6,9 @@ import java27.backend.mobiliariodeoficina.models.dto.ItemCotizacion;
 import java27.backend.mobiliariodeoficina.models.Cotizacion;
 import java27.backend.mobiliariodeoficina.models.DetalleCotizacion;
 import java27.backend.mobiliariodeoficina.models.Producto;
-import java27.backend.mobiliariodeoficina.models.EstadoCotizacion;
-import java27.backend.mobiliariodeoficina.models.CotizacionRepository;
-import java27.backend.mobiliariodeoficina.models.ProductoRepository;
+import java27.backend.mobiliariodeoficina.models.enums.EstadoCotizacion;
+import java27.backend.mobiliariodeoficina.models.interfaces.CotizacionRepository;
+import java27.backend.mobiliariodeoficina.models.interfaces.ProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -85,5 +85,21 @@ public class CotizacionService {
 
     public List<Cotizacion> obtenerMisCotizaciones(String email) {
         return cotizacionRepository.findByEmailOrderByFechaCreacionDesc(email);
+    }
+
+    // GET: Obtiene todas las cotizaciones (idealmente ordenadas por fecha)
+    public List<Cotizacion> obtenerTodasLasCotizaciones() {
+        // Puedes usar .findAll() si no tienes el método ByOrderByFechaCreacionDesc en el repo
+        return cotizacionRepository.findAll();
+    }
+
+    // PATCH: Actualiza solo el estado
+    @Transactional
+    public void actualizarEstadoCotizacion(String codigo, EstadoCotizacion nuevoEstado) {
+        Cotizacion cotizacion = cotizacionRepository.findByCodigoCotizacion(codigo) // Ajusta al nombre exacto de tu método
+                .orElseThrow(() -> new RuntimeException("Cotización no encontrada: " + codigo));
+
+        cotizacion.setEstado(nuevoEstado);
+        cotizacionRepository.save(cotizacion);
     }
 }

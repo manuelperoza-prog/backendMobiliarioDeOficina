@@ -1,6 +1,5 @@
 package java27.backend.mobiliariodeoficina.models.dto;
 
-import java27.backend.mobiliariodeoficina.models.TipoEspacio;
 import lombok.*;
 
 import java.math.BigDecimal;

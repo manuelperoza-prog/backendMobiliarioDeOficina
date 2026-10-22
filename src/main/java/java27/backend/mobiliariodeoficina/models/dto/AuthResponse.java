@@ -1,4 +1,4 @@
-package java27.backend.mobiliariodeoficina.auth.DTO;
+package java27.backend.mobiliariodeoficina.models.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,10 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterRequest {
+public class AuthResponse {
 
-    String username;
-    String password;
-    String email;
+    String token;
 
 }

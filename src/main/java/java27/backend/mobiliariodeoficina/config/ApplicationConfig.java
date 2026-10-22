@@ -12,7 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import lombok.RequiredArgsConstructor;
-import java27.backend.mobiliariodeoficina.models.user.UserRepository;
+import java27.backend.mobiliariodeoficina.models.interfaces.UserRepository;
 
 @Configuration
 @RequiredArgsConstructor

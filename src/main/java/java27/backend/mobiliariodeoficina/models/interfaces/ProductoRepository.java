@@ -1,7 +1,7 @@
-package java27.backend.mobiliariodeoficina.models;
+package java27.backend.mobiliariodeoficina.models.interfaces;
 
 import java27.backend.mobiliariodeoficina.models.Producto;
-import java27.backend.mobiliariodeoficina.models.TipoEspacio;
+import java27.backend.mobiliariodeoficina.models.enums.TipoEspacio;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

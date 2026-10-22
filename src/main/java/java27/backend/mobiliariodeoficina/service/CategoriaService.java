@@ -3,7 +3,7 @@ package java27.backend.mobiliariodeoficina.service;
 import java27.backend.mobiliariodeoficina.models.dto.CategoriaRequest;
 import java27.backend.mobiliariodeoficina.models.dto.CategoriaResponse;
 import java27.backend.mobiliariodeoficina.models.Categoria;
-import java27.backend.mobiliariodeoficina.models.CategoriaRepository;
+import java27.backend.mobiliariodeoficina.models.interfaces.CategoriaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

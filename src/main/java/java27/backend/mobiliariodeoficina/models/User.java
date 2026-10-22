@@ -1,6 +1,7 @@
-package java27.backend.mobiliariodeoficina.models.user;
+package java27.backend.mobiliariodeoficina.models;
 
 import jakarta.persistence.*;
+import java27.backend.mobiliariodeoficina.models.enums.Role;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

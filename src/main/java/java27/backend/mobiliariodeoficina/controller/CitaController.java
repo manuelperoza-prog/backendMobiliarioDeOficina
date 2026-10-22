@@ -2,6 +2,7 @@ package java27.backend.mobiliariodeoficina.controller;
 
 import java27.backend.mobiliariodeoficina.models.CitaShowroom;
 import java27.backend.mobiliariodeoficina.models.dto.CitaRequest;
+import java27.backend.mobiliariodeoficina.models.dto.EstadoCitaRequest;
 import java27.backend.mobiliariodeoficina.service.CitaService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -58,5 +59,24 @@ public class CitaController {
     public ResponseEntity<List<CitaShowroom>> obtenerMisCitas(Principal principal) {
         // Corrección aplicada aquí: uso de la variable citaService en minúscula
         return ResponseEntity.ok(citaService.obtenerMisCitas(principal.getName()));
+    }
+
+    // GET administrativo protegido por SecurityConfig
+    @GetMapping
+    public ResponseEntity<List<CitaShowroom>> obtenerTodas() {
+        return ResponseEntity.ok(citaService.obtenerTodasLasCitas());
+    }
+
+    // PATCH administrativo para cambiar estado
+    @PatchMapping("/{codigoCita}")
+    public ResponseEntity<Map<String, String>> actualizarEstado(
+            @PathVariable String codigoCita,
+            @Valid @RequestBody EstadoCitaRequest request) {
+
+        citaService.actualizarEstadoCita(codigoCita, request.getEstado());
+
+        Map<String, String> respuesta = new HashMap<>();
+        respuesta.put("mensaje", "Estado de la cita actualizado a " + request.getEstado());
+        return ResponseEntity.ok(respuesta);
     }
 }

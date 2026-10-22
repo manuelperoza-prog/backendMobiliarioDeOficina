@@ -1,7 +1,7 @@
 package java27.backend.mobiliariodeoficina.models;
 
 import jakarta.persistence.*;
-import java27.backend.mobiliariodeoficina.models.EstadoCotizacion;
+import java27.backend.mobiliariodeoficina.models.enums.EstadoCotizacion;
 import lombok.Data;
 
 import java.time.LocalDateTime;

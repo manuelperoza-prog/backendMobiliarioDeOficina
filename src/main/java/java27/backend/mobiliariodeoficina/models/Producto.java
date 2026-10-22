@@ -1,6 +1,6 @@
 package java27.backend.mobiliariodeoficina.models;
 
-import java27.backend.mobiliariodeoficina.models.TipoEspacio;
+import java27.backend.mobiliariodeoficina.models.enums.TipoEspacio;
 import jakarta.persistence.*;
 import lombok.*;
 

@@ -1,4 +1,4 @@
-package java27.backend.mobiliariodeoficina.models;
+package java27.backend.mobiliariodeoficina.models.enums;
 
 public enum EstadoCita {
     PENDIENTE,

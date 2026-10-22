@@ -1,4 +1,4 @@
-package java27.backend.mobiliariodeoficina.auth.service;
+package java27.backend.mobiliariodeoficina.service;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -7,15 +7,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java27.backend.mobiliariodeoficina.auth.DTO.AuthResponse;
-import java27.backend.mobiliariodeoficina.auth.DTO.LoginRequest;
-import java27.backend.mobiliariodeoficina.auth.DTO.RegisterRequest;
+import java27.backend.mobiliariodeoficina.models.dto.AuthResponse;
+import java27.backend.mobiliariodeoficina.models.dto.LoginRequest;
+import java27.backend.mobiliariodeoficina.models.dto.RegisterRequest;
 
 import lombok.RequiredArgsConstructor;
 import java27.backend.mobiliariodeoficina.jwt.JwtService;
-import java27.backend.mobiliariodeoficina.models.user.Role;
-import java27.backend.mobiliariodeoficina.models.user.User;
-import java27.backend.mobiliariodeoficina.models.user.UserRepository;
+import java27.backend.mobiliariodeoficina.models.enums.Role;
+import java27.backend.mobiliariodeoficina.models.User;
+import java27.backend.mobiliariodeoficina.models.interfaces.UserRepository;
 
 @Service
 @RequiredArgsConstructor
