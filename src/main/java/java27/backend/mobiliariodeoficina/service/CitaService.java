@@ -94,7 +94,6 @@ public class CitaService {
     }
 
     public List<CitaShowroom> obtenerMisCitas(String email) {
-        // Corrección aplicada aquí: uso de la variable citaRepository en minúscula
-        return citaRepository.findByEmailOrderByFechaCreacionDesc(email);
+        return citaRepository.findByUsuarioEmailOrderByFechaHoraDesc(email);
     }
 }
