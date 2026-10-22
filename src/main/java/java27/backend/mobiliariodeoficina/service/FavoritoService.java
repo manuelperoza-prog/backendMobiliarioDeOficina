@@ -2,10 +2,10 @@ package java27.backend.mobiliariodeoficina.service;
 
 import java27.backend.mobiliariodeoficina.models.Favorito;
 import java27.backend.mobiliariodeoficina.models.Producto;
-import java27.backend.mobiliariodeoficina.models.user.User; // Ajusta a tu entidad
+import java27.backend.mobiliariodeoficina.models.user.User;
 import java27.backend.mobiliariodeoficina.models.FavoritoRepository;
 import java27.backend.mobiliariodeoficina.models.ProductoRepository;
-import java27.backend.mobiliariodeoficina.models.user.UserRepository; // Ajusta a tu repo
+import java27.backend.mobiliariodeoficina.models.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -23,9 +23,15 @@ public class FavoritoService {
     private final ProductoRepository productoRepository;
     private final UserRepository userRepository;
 
-    public List<Long> obtenerIdsFavoritos(String email) {
-        User user = userRepository.findByEmail(email)
+    // Método centralizado para buscar al usuario por username o email (Evita el error 401)
+    private User obtenerUsuarioLogueado(String identificador) {
+        return userRepository.findByUsername(identificador)
+                .or(() -> userRepository.findByEmail(identificador))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no encontrado"));
+    }
+
+    public List<Long> obtenerIdsFavoritos(String identificador) {
+        User user = obtenerUsuarioLogueado(identificador);
 
         return favoritoRepository.findByUser(user)
                 .stream()
@@ -34,8 +40,8 @@ public class FavoritoService {
     }
 
     @Transactional
-    public void agregarFavorito(String email, Long productoId) {
-        User user = userRepository.findByEmail(email).orElseThrow();
+    public void agregarFavorito(String identificador, Long productoId) {
+        User user = obtenerUsuarioLogueado(identificador);
 
         Producto producto = productoRepository.findById(productoId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "El producto no existe."));
@@ -49,8 +55,8 @@ public class FavoritoService {
     }
 
     @Transactional
-    public void eliminarFavorito(String email, Long productoId) {
-        User user = userRepository.findByEmail(email).orElseThrow();
+    public void eliminarFavorito(String identificador, Long productoId) {
+        User user = obtenerUsuarioLogueado(identificador);
 
         if (!productoRepository.existsById(productoId)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "El producto no existe.");
