@@ -34,7 +34,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults()) // Busca el bean corsConfigurationSource() que está abajo
                 .authorizeHttpRequests(auth -> auth
-                        // 1. Documentación y errores (quitamos el /auth/** de aquí)
+                        // 1. Documentación y errores
                         .requestMatchers(
                                 "/v3/api-docs/**",
                                 "/v3/api-docs.yaml",
@@ -43,7 +43,7 @@ public class SecurityConfig {
                                 "/error"
                         ).permitAll()
 
-                        // 2. Ruta específica del perfil PROTEGIDA (debe ir antes del general /auth/**)
+                        // 2. Ruta específica del perfil PROTEGIDA
                         .requestMatchers(HttpMethod.GET, "/auth/v1/me").authenticated()
 
                         // 3. El resto de rutas de auth (login, register) PÚBLICAS
@@ -53,6 +53,9 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/v1/productos/**", "/api/v1/categorias/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/cotizaciones").permitAll()
 
+                        // --- RUTAS PROTEGIDAS DEL CLIENTE (Evita que el /** del admin las bloquee) ---
+                        .requestMatchers(HttpMethod.GET, "/api/v1/citas/mis-citas").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/cotizaciones/mis-cotizaciones").authenticated()
                         .requestMatchers(HttpMethod.POST, "/api/v1/citas").authenticated()
 
                         // --- RUTAS PROTEGIDAS ADMINISTRATIVAS ---
@@ -60,17 +63,17 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/api/v1/productos/**").hasAnyAuthority("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/productos/**").hasAuthority("ADMIN")
 
-                        .requestMatchers(HttpMethod.GET, "/api/v1/citas/**").hasAnyAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/citas", "/api/v1/citas/**").hasAnyAuthority("ADMIN")
                         .requestMatchers(HttpMethod.PATCH, "/api/v1/citas/**").hasAnyAuthority("ADMIN")
 
                         .requestMatchers(HttpMethod.POST, "/api/v1/categorias").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/v1/categorias/**").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/categorias/**").hasAuthority("ADMIN")
 
-                        .requestMatchers(HttpMethod.GET, "/api/v1/cotizaciones").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/cotizaciones", "/api/v1/cotizaciones/**").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.PATCH, "/api/v1/cotizaciones/**").hasAuthority("ADMIN")
 
-                        // Todo lo demás requiere autenticación (esto incluye tus nuevos endpoints de favoritos)
+                        // Todo lo demás requiere autenticación (favoritos, etc.)
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session

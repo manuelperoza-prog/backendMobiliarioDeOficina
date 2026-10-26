@@ -5,7 +5,6 @@ import java27.backend.mobiliariodeoficina.models.Cotizacion;
 import java27.backend.mobiliariodeoficina.models.dto.CotizacionRequest;
 import java27.backend.mobiliariodeoficina.models.dto.CotizacionResponse;
 import java27.backend.mobiliariodeoficina.models.dto.EstadoCotizacionRequest;
-import java27.backend.mobiliariodeoficina.models.dto.EstadoRequest;
 import java27.backend.mobiliariodeoficina.service.CotizacionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,25 +30,6 @@ public class CotizacionController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Cotizacion>> obtenerCotizaciones() {
-        return ResponseEntity.ok(cotizacionService.obtenerTodas());
-    }
-
-    @PatchMapping("/{id}/estado")
-    public ResponseEntity<Cotizacion> actualizarEstado(
-            @PathVariable Long id,
-            @Valid @RequestBody EstadoRequest request) {
-
-        Cotizacion cotizacionActualizada = cotizacionService.actualizarEstado(id, request.getEstado());
-        return ResponseEntity.ok(cotizacionActualizada);
-    }
-
-    @GetMapping("/mis-cotizaciones")
-    public ResponseEntity<List<Cotizacion>> obtenerMisCotizaciones(Principal principal) {
-        return ResponseEntity.ok(cotizacionService.obtenerMisCotizaciones(principal.getName()));
-    }
-
-    @GetMapping
     public ResponseEntity<List<Cotizacion>> obtenerTodas() {
         return ResponseEntity.ok(cotizacionService.obtenerTodasLasCotizaciones());
     }
@@ -64,5 +44,10 @@ public class CotizacionController {
         Map<String, String> respuesta = new HashMap<>();
         respuesta.put("mensaje", "Estado de la cotización actualizado a " + request.getEstado());
         return ResponseEntity.ok(respuesta);
+    }
+
+    @GetMapping("/mis-cotizaciones")
+    public ResponseEntity<List<Cotizacion>> obtenerMisCotizaciones(Principal principal) {
+        return ResponseEntity.ok(cotizacionService.obtenerMisCotizaciones(principal.getName()));
     }
 }
