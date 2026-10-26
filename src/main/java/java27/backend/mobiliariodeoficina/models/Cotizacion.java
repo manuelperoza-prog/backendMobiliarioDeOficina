@@ -18,7 +18,7 @@ public class Cotizacion {
     private Long id;
 
     @Column(unique = true, nullable = false)
-    private String codigoCotizacion; // Ej: COT-0001
+    private String codigoCotizacion;
 
     @Column(nullable = false)
     private String nombreCliente;
@@ -44,15 +44,15 @@ public class Cotizacion {
     @Column(nullable = false)
     private EstadoCotizacion estado;
 
-    // Relación uno a muchos con los detalles. Si se borra la cotización, se borran sus detalles.
+
     @OneToMany(mappedBy = "cotizacion", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DetalleCotizacion> detalles = new ArrayList<>();
 
-    // Puedes generar los Getters y Setters con tu IDE, o usar @Data si tienes Lombok
+
     public void addDetalle(DetalleCotizacion detalle) {
         detalles.add(detalle);
         detalle.setCotizacion(this);
     }
 
-    // --- GETTERS Y SETTERS AQUÍ ---
+
 }

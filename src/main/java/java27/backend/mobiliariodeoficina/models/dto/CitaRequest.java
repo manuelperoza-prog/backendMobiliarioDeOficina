@@ -14,7 +14,7 @@ public class CitaRequest {
     @NotBlank(message = "El nombre es obligatorio")
     private String nombreCliente;
 
-    private String empresa; // Opcional
+    private String empresa;
 
     @NotBlank(message = "El teléfono es obligatorio")
     private String telefono;

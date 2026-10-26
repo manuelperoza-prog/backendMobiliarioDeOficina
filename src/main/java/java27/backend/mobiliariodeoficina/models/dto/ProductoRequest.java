@@ -31,6 +31,6 @@ public class ProductoRequest {
     private String material;
     private String dimensionesEstandar;
 
-    // Al crear, se pueden pasar las URLs de las imágenes iniciales
+
     private List<String> imagenes;
 }

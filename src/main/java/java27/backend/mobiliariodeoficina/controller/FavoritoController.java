@@ -17,7 +17,7 @@ public class FavoritoController {
 
     @GetMapping
     public ResponseEntity<List<Long>> obtenerFavoritos(Principal principal) {
-        // principal.getName() contiene el email del usuario extraído del JWT
+
         List<Long> favoritos = favoritoService.obtenerIdsFavoritos(principal.getName());
         return ResponseEntity.ok(favoritos);
     }
@@ -27,7 +27,7 @@ public class FavoritoController {
             @PathVariable Long productoId,
             Principal principal) {
         favoritoService.agregarFavorito(principal.getName(), productoId);
-        return ResponseEntity.noContent().build(); // Devuelve status 204
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{productoId}")
@@ -35,6 +35,6 @@ public class FavoritoController {
             @PathVariable Long productoId,
             Principal principal) {
         favoritoService.eliminarFavorito(principal.getName(), productoId);
-        return ResponseEntity.noContent().build(); // Devuelve status 204
+        return ResponseEntity.noContent().build();
     }
 }

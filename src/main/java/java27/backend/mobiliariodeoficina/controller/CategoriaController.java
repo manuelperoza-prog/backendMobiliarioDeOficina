@@ -30,7 +30,7 @@ public class CategoriaController {
         return ResponseEntity.status(HttpStatus.CREATED).body(categoriaService.crearCategoria(dto));
     }
 
-    // Ruta Protegida: Editar categoría existente
+
     @PutMapping("/{id}")
     public ResponseEntity<CategoriaResponse> actualizarCategoria(
             @PathVariable Long id,
@@ -39,12 +39,12 @@ public class CategoriaController {
         return ResponseEntity.ok(categoriaService.actualizarCategoria(id, dto));
     }
 
-    // Ruta Protegida: Eliminar categoría
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, String>> eliminarCategoria(@PathVariable Long id) {
         categoriaService.eliminarCategoria(id);
 
-        // Devolvemos un JSON amigable de confirmación
+
         Map<String, String> respuesta = new HashMap<>();
         respuesta.put("mensaje", "Categoría eliminada con éxito");
 

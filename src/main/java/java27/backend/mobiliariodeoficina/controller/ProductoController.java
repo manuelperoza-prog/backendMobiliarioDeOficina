@@ -20,8 +20,8 @@ public class ProductoController {
 
     private final ProductoService productoService;
 
-    // Ruta Pública: Catálogo con filtros
-    // Ejemplo de uso: /api/v1/productos?tipoEspacio=OPERATIVO&enShowroom=true
+
+
     @GetMapping
     public ResponseEntity<List<ProductoResponse>> listarProductos(
             @RequestParam(required = false) Boolean enShowroom,
@@ -31,20 +31,20 @@ public class ProductoController {
         return ResponseEntity.ok(productoService.obtenerTodos(enShowroom, tipoEspacio, buscar));
     }
 
-    // Ruta Pública: Detalle de un mueble específico
+
     @GetMapping("/{id}")
     public ResponseEntity<ProductoResponse> obtenerPorId(@PathVariable Long id) {
         return ResponseEntity.ok(productoService.obtenerPorId(id));
     }
 
-    // Ruta Protegida: Crear nuevo producto (Requiere token JWT de ADMIN o ASESOR)
+
     @PostMapping
     public ResponseEntity<ProductoResponse> crearProducto(@Valid @RequestBody ProductoRequest dto) {
         ProductoResponse nuevoProducto = productoService.crearProducto(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevoProducto);
     }
 
-    // Ruta Protegida: Editar producto existente
+
     @PutMapping("/{id}")
     public ResponseEntity<ProductoResponse> actualizarProducto(
             @PathVariable Long id,
@@ -56,7 +56,7 @@ public class ProductoController {
     public ResponseEntity<Map<String, String>> eliminarProducto(@PathVariable Long id) {
         productoService.eliminarProducto(id);
 
-        // Devolvemos un JSON de éxito
+
         Map<String, String> respuesta = new HashMap<>();
         respuesta.put("mensaje", "Producto eliminado con éxito");
 

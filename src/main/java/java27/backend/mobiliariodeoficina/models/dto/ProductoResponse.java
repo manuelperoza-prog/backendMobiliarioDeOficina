@@ -14,7 +14,7 @@ public class ProductoResponse {
     private String nombre;
     private String descripcion;
 
-    // En lugar de enviar toda la entidad Categoria, enviamos solo lo útil:
+
     private Long categoriaId;
     private String categoriaNombre;
 
@@ -24,6 +24,6 @@ public class ProductoResponse {
     private String material;
     private String dimensionesEstandar;
 
-    // Solo enviamos las URLs de las fotos, no los objetos completos
+
     private List<String> imagenes;
 }

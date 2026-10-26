@@ -1,7 +1,7 @@
 package java27.backend.mobiliariodeoficina.controller;
 
-import java27.backend.mobiliariodeoficina.models.CitaShowroom;
 import java27.backend.mobiliariodeoficina.models.dto.CitaRequest;
+import java27.backend.mobiliariodeoficina.models.dto.CitaResponse;
 import java27.backend.mobiliariodeoficina.models.dto.EstadoCitaRequest;
 import java27.backend.mobiliariodeoficina.service.CitaService;
 import jakarta.validation.Valid;
@@ -22,12 +22,10 @@ public class CitaController {
 
     private final CitaService citaService;
 
-    // Ruta Pública: Formulario de agendamiento desde el frontend
     @PostMapping
     public ResponseEntity<Map<String, String>> agendarCita(@Valid @RequestBody CitaRequest dto) {
         String codigoGenerado = citaService.agendarCita(dto);
 
-        // Devolvemos un JSON amigable {"mensaje": "...", "codigoCita": "CITA-XXXX"}
         Map<String, String> respuesta = new HashMap<>();
         respuesta.put("mensaje", "Cita agendada con éxito");
         respuesta.put("codigoCita", codigoGenerado);
@@ -46,7 +44,6 @@ public class CitaController {
         return ResponseEntity.ok(respuesta);
     }
 
-    // Ruta Protegida: Cliente cancela/elimina su propia cita
     @DeleteMapping("/{codigoCita}")
     public ResponseEntity<Map<String, String>> eliminarCita(@PathVariable String codigoCita) {
         citaService.eliminarCita(codigoCita);
@@ -56,18 +53,15 @@ public class CitaController {
     }
 
     @GetMapping("/mis-citas")
-    public ResponseEntity<List<CitaShowroom>> obtenerMisCitas(Principal principal) {
-        // Corrección aplicada aquí: uso de la variable citaService en minúscula
+    public ResponseEntity<List<CitaResponse>> obtenerMisCitas(Principal principal) {
         return ResponseEntity.ok(citaService.obtenerMisCitas(principal.getName()));
     }
 
-    // GET administrativo protegido por SecurityConfig
     @GetMapping
-    public ResponseEntity<List<CitaShowroom>> obtenerTodas() {
+    public ResponseEntity<List<CitaResponse>> obtenerTodas() {
         return ResponseEntity.ok(citaService.obtenerTodasLasCitas());
     }
 
-    // PATCH administrativo para cambiar estado
     @PatchMapping("/{codigoCita}")
     public ResponseEntity<Map<String, String>> actualizarEstado(
             @PathVariable String codigoCita,

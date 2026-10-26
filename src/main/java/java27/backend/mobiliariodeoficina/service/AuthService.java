@@ -27,8 +27,8 @@ public class AuthService {
     private final PasswordEncoder encoder;
 
     public AuthResponse login(LoginRequest request) {
-    String principal = (request.getUsername() != null && !request.getUsername().isEmpty()) 
-                        ? request.getUsername() 
+    String principal = (request.getUsername() != null && !request.getUsername().isEmpty())
+                        ? request.getUsername()
                         : request.getEmail();
 
     Authentication authentication = authman.authenticate(
@@ -44,10 +44,10 @@ public class AuthService {
     public AuthResponse register(RegisterRequest request) {
 
         if (repo.findByUsername(request.getUsername()).isPresent()) {
-        throw new IllegalArgumentException("El nombre de usuario ya está en uso."); 
+        throw new IllegalArgumentException("El nombre de usuario ya está en uso.");
         }
         else if (repo.findByEmail(request.getEmail()).isPresent()) {
-            throw new IllegalArgumentException("El correo electrónico ya está registrado."); 
+            throw new IllegalArgumentException("El correo electrónico ya está registrado.");
         }
 
         User user = User.builder()

@@ -52,7 +52,7 @@ public class Producto {
     @Builder.Default
     private List<ProductoImagen> imagenes = new ArrayList<>();
 
-    // Método helper para vincular imágenes limpiamente
+
     public void agregarImagen(ProductoImagen imagen) {
         imagenes.add(imagen);
         imagen.setProducto(this);

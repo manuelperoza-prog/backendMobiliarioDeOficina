@@ -13,7 +13,7 @@ public class CotizacionRequest {
     @NotBlank(message = "El nombre del cliente es obligatorio")
     private String nombreCliente;
 
-    private String empresa; // Opcional, por eso no lleva @NotBlank
+    private String empresa;
 
     @NotBlank(message = "El teléfono es obligatorio")
     private String telefono;
@@ -22,7 +22,7 @@ public class CotizacionRequest {
     @Email(message = "Debe ser un formato de email válido")
     private String email;
 
-    private String notas; // Opcional
+    private String notas;
 
     @NotEmpty(message = "La cotización debe tener al menos un producto")
     private List<@Valid ItemCotizacion> items;

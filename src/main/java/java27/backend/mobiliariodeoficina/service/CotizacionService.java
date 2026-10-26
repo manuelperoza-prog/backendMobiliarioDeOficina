@@ -37,7 +37,7 @@ public class CotizacionService {
         cotizacion.setEmail(request.getEmail());
         cotizacion.setNotas(request.getNotas());
 
-        // Asignamos la hora de Caracas y el estado por defecto
+
         cotizacion.setFechaCreacion(LocalDateTime.now(ZoneId.of("America/Caracas")));
         cotizacion.setEstado(EstadoCotizacion.PENDIENTE);
 
@@ -48,7 +48,7 @@ public class CotizacionService {
 
         double total = 0.0;
 
-        // Recorremos los ítems que mandó el frontend
+
         for (ItemCotizacion item : request.getItems()) {
             Producto producto = productoRepository.findById(item.getProductoId())
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
@@ -87,16 +87,16 @@ public class CotizacionService {
         return cotizacionRepository.findByEmailOrderByFechaCreacionDesc(email);
     }
 
-    // GET: Obtiene todas las cotizaciones (idealmente ordenadas por fecha)
+
     public List<Cotizacion> obtenerTodasLasCotizaciones() {
-        // Puedes usar .findAll() si no tienes el método ByOrderByFechaCreacionDesc en el repo
+
         return cotizacionRepository.findAll();
     }
 
-    // PATCH: Actualiza solo el estado
+
     @Transactional
     public void actualizarEstadoCotizacion(String codigo, EstadoCotizacion nuevoEstado) {
-        Cotizacion cotizacion = cotizacionRepository.findByCodigoCotizacion(codigo) // Ajusta al nombre exacto de tu método
+        Cotizacion cotizacion = cotizacionRepository.findByCodigoCotizacion(codigo)
                 .orElseThrow(() -> new RuntimeException("Cotización no encontrada: " + codigo));
 
         cotizacion.setEstado(nuevoEstado);

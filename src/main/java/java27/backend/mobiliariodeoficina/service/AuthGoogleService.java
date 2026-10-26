@@ -18,8 +18,8 @@ import java27.backend.mobiliariodeoficina.models.interfaces.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 
-@Service 
-@RequiredArgsConstructor 
+@Service
+@RequiredArgsConstructor
 public class AuthGoogleService {
 
     private final GoogleTokenVerifierService service;
@@ -36,7 +36,7 @@ public class AuthGoogleService {
         UserDetails userD = user.get();
 
         return AuthResponse.builder()
-                .token(serv.getToken(userD)) //
+                .token(serv.getToken(userD))
                 .build();
     } else {
         User newUser = User.builder()

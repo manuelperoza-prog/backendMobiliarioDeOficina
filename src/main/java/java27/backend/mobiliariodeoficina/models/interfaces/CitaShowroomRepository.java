@@ -12,13 +12,13 @@ import java.util.Optional;
 @Repository
 public interface CitaShowroomRepository extends JpaRepository<CitaShowroom, Long> {
 
-    // Para buscar una cita específica por su código (ej. CITA-2026-0042)
+
     Optional<CitaShowroom> findByCodigoCita(String codigoCita);
 
-    // Para que el administrador filtre citas pendientes, confirmadas, etc.
+
     List<CitaShowroom> findByEstado(EstadoCita estado);
 
-    // Para ver las citas programadas a partir de hoy
+
     List<CitaShowroom> findByFechaHoraAfterOrderByFechaHoraAsc(LocalDateTime fecha);
 
     List<CitaShowroom> findByUsuarioEmailOrderByFechaHoraDesc(String email);

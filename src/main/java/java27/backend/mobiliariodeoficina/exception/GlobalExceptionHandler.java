@@ -12,13 +12,13 @@ import java.util.Map;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    // Tu manejador actual para los tokens/credenciales
+
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> handleInvalidToken(IllegalArgumentException ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales invalidas " + ex.getMessage());
     }
 
-    // El NUEVO manejador para evitar el 401 cuando el JSON (o Enum) viene mal escrito
+
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<Map<String, String>> handleJsonErrors(HttpMessageNotReadableException ex) {
         Map<String, String> error = new HashMap<>();

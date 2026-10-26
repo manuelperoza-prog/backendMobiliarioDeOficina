@@ -20,13 +20,13 @@ public class DetalleCotizacion {
 
     @ManyToOne
     @JoinColumn(name = "producto_id", nullable = false)
-    private Producto producto; // Asumiendo que tu entidad de productos se llama Producto
+    private Producto producto;
 
     @Column(nullable = false)
     private Integer cantidad;
 
     @Column(nullable = false)
-    private Double precioUnitario; // Precio del producto al momento de cotizar
+    private Double precioUnitario;
 
-    // --- GETTERS Y SETTERS AQUÍ ---
+
 }

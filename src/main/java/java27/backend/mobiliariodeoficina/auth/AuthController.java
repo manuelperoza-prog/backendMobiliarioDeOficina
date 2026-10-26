@@ -19,7 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
 
-@RestController 
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth/v1")
 public class AuthController {
@@ -32,7 +32,7 @@ public class AuthController {
     public ResponseEntity<AuthResponse> loginUser(@RequestBody LoginRequest request) {
         return ResponseEntity.ok(authService.login(request));
     }
-    
+
 
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> registerUser(@RequestBody RegisterRequest request) {

@@ -32,9 +32,9 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
-                .cors(Customizer.withDefaults()) // Busca el bean corsConfigurationSource() que está abajo
+                .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
-                        // 1. Documentación y errores
+
                         .requestMatchers(
                                 "/v3/api-docs/**",
                                 "/v3/api-docs.yaml",
@@ -43,22 +43,22 @@ public class SecurityConfig {
                                 "/error"
                         ).permitAll()
 
-                        // 2. Ruta específica del perfil PROTEGIDA
+
                         .requestMatchers(HttpMethod.GET, "/auth/v1/me").authenticated()
 
-                        // 3. El resto de rutas de auth (login, register) PÚBLICAS
+
                         .requestMatchers("/auth/**").permitAll()
 
-                        // --- NUEVAS RUTAS PÚBLICAS DEL CATÁLOGO Y SHOWROOM ---
+
                         .requestMatchers(HttpMethod.GET, "/api/v1/productos/**", "/api/v1/categorias/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/cotizaciones").permitAll()
 
-                        // --- RUTAS PROTEGIDAS DEL CLIENTE (Evita que el /** del admin las bloquee) ---
+
                         .requestMatchers(HttpMethod.GET, "/api/v1/citas/mis-citas").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/v1/cotizaciones/mis-cotizaciones").authenticated()
                         .requestMatchers(HttpMethod.POST, "/api/v1/citas").authenticated()
 
-                        // --- RUTAS PROTEGIDAS ADMINISTRATIVAS ---
+
                         .requestMatchers(HttpMethod.POST, "/api/v1/productos", "/api/v1/productos/**").hasAnyAuthority("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/v1/productos/**").hasAnyAuthority("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/productos/**").hasAuthority("ADMIN")
@@ -73,7 +73,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/v1/cotizaciones", "/api/v1/cotizaciones/**").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.PATCH, "/api/v1/cotizaciones/**").hasAuthority("ADMIN")
 
-                        // Todo lo demás requiere autenticación (favoritos, etc.)
+
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
@@ -84,12 +84,12 @@ public class SecurityConfig {
                 .build();
     }
 
-    // --- CONFIGURACIÓN DE CORS PARA EL FRONTEND (VUE.JS) ---
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        // Permite el puerto por defecto de Vite/Vue.js (ajusta si usas otro puerto)
+
         configuration.setAllowedOrigins(List.of("http://localhost:5173", "https://proyecto-mobiliaria.vercel.app"));
 
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));

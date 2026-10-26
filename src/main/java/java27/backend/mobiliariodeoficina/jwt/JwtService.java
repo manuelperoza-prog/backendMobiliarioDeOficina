@@ -31,7 +31,7 @@ public class JwtService {
     public String getToken(UserDetails user) {
         Map<String, Object> extraClaims = new HashMap<>();
 
-        // Inyectar el rol extrayéndolo de las autoridades del UserDetails
+
         if (user.getAuthorities() != null && !user.getAuthorities().isEmpty()) {
             String rol = user.getAuthorities().iterator().next().getAuthority();
             extraClaims.put("rol", rol);

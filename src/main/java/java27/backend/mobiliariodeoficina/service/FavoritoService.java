@@ -23,7 +23,7 @@ public class FavoritoService {
     private final ProductoRepository productoRepository;
     private final UserRepository userRepository;
 
-    // Método centralizado para buscar al usuario por username o email (Evita el error 401)
+
     private User obtenerUsuarioLogueado(String identificador) {
         return userRepository.findByUsername(identificador)
                 .or(() -> userRepository.findByEmail(identificador))
@@ -36,7 +36,7 @@ public class FavoritoService {
         return favoritoRepository.findByUser(user)
                 .stream()
                 .map(fav -> fav.getProducto().getId())
-                .toList(); // Retorna un array limpio: [1, 4, 7]
+                .toList();
     }
 
     @Transactional
@@ -48,7 +48,7 @@ public class FavoritoService {
 
         Optional<Favorito> existente = favoritoRepository.findByUserAndProductoId(user, productoId);
 
-        // Solo guardamos si no existe previamente (cumpliendo con la idempotencia)
+
         if (existente.isEmpty()) {
             favoritoRepository.save(new Favorito(user, producto));
         }
@@ -62,7 +62,7 @@ public class FavoritoService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "El producto no existe.");
         }
 
-        // Si existe en favoritos, lo elimina; si no, no hace nada y el controlador devolverá 204 igual
+
         favoritoRepository.findByUserAndProductoId(user, productoId)
                 .ifPresent(favoritoRepository::delete);
     }

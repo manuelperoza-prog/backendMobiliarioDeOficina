@@ -26,7 +26,7 @@ public class ProductoService {
     public List<ProductoResponse> obtenerTodos(Boolean enShowroom, String tipoEspacio, String buscar) {
         List<Producto> productos;
 
-        // Reglas de filtrado para el catálogo
+
         if (buscar != null && !buscar.isBlank()) {
             productos = productoRepository.buscarPorNombre(buscar);
         } else if (enShowroom != null && enShowroom) {
@@ -63,7 +63,7 @@ public class ProductoService {
                 .dimensionesEstandar(dto.getDimensionesEstandar())
                 .build();
 
-        // Si mandan URLs de imágenes en el DTO, las asociamos usando el método helper de la entidad
+
         if (dto.getImagenes() != null && !dto.getImagenes().isEmpty()) {
             dto.getImagenes().forEach(url -> {
                 producto.agregarImagen(ProductoImagen.builder().urlImagen(url).build());
@@ -76,15 +76,15 @@ public class ProductoService {
 
     @Transactional
     public ProductoResponse actualizarProducto(Long id, ProductoRequest dto) {
-        // Buscamos el producto existente
+
         Producto producto = productoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id));
 
-        // Buscamos la categoría por si la cambió
+
         Categoria categoria = categoriaRepository.findById(dto.getCategoriaId())
                 .orElseThrow(() -> new RuntimeException("Categoría no encontrada con ID: " + dto.getCategoriaId()));
 
-        // Actualizamos los datos básicos
+
         producto.setNombre(dto.getNombre());
         producto.setDescripcion(dto.getDescripcion());
         producto.setCategoria(categoria);
@@ -94,8 +94,8 @@ public class ProductoService {
         producto.setMaterial(dto.getMaterial());
         producto.setDimensionesEstandar(dto.getDimensionesEstandar());
 
-        // Manejo de Imágenes: Borramos las viejas y guardamos las nuevas
-        producto.getImagenes().clear(); // Hibernate borrará las antiguas automáticamente
+
+        producto.getImagenes().clear();
 
         if (dto.getImagenes() != null && !dto.getImagenes().isEmpty()) {
             dto.getImagenes().forEach(url -> {
@@ -108,16 +108,16 @@ public class ProductoService {
 
     @Transactional
     public void eliminarProducto(Long id) {
-        // Buscamos el producto primero para asegurar que existe
+
         Producto producto = productoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id));
 
-        // Al eliminar el producto, gracias al orphanRemoval=true y CascadeType.ALL
-        // en la entidad, las imágenes asociadas se borrarán automáticamente.
+
+
         productoRepository.delete(producto);
     }
 
-    // Transformador manual Entidad -> DTO (Evita bucles y oculta datos internos)
+
     private ProductoResponse mapearADTO(Producto producto) {
         List<String> urls = producto.getImagenes().stream()
                 .map(ProductoImagen::getUrlImagen)
@@ -127,8 +127,8 @@ public class ProductoService {
                 .id(producto.getId())
                 .nombre(producto.getNombre())
                 .descripcion(producto.getDescripcion())
-                .categoriaId(producto.getCategoria().getId())         // <--- LÍNEA AGREGADA
-                .categoriaNombre(producto.getCategoria().getNombre()) // Sacamos solo el nombre
+                .categoriaId(producto.getCategoria().getId())
+                .categoriaNombre(producto.getCategoria().getNombre())
                 .tipoEspacio(producto.getTipoEspacio().name())
                 .precioReferencialUsd(producto.getPrecioReferencialUsd())
                 .enShowroom(producto.getEnShowroom())

@@ -23,7 +23,7 @@ public class CitaShowroom {
     @Column(name = "codigo_cita", nullable = false, unique = true, length = 30)
     private String codigoCita;
 
-    // Relación directa: Muchas citas pueden pertenecer a un mismo Usuario
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id", nullable = false)
     private User usuario;
@@ -32,7 +32,7 @@ public class CitaShowroom {
     private String empresa;
 
     @Column(nullable = false, length = 30)
-    private String telefono; // Lo mantenemos porque en User no tienes teléfono
+    private String telefono;
 
     @Column(name = "fecha_hora", nullable = false)
     private LocalDateTime fechaHora;

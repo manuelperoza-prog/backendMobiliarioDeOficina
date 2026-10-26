@@ -16,7 +16,7 @@ public class Favorito {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id", nullable = false)
-    private User user; // <-- Cambia a 'Usuario' si así se llama tu clase
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "producto_id", nullable = false)

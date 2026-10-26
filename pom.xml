@@ -123,9 +123,9 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<!-- Removido <executions> redundantes -->
+
 				<configuration>
-					<parameters>true</parameters> <!-- Recomendado para Spring Boot -->
+					<parameters>true</parameters>
 					<annotationProcessorPaths>
 						<path>
 							<groupId>org.projectlombok</groupId>

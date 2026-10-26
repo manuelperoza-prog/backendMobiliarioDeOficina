@@ -13,14 +13,14 @@ import org.springframework.context.annotation.Configuration;
 
 import java.math.BigDecimal;
 
-/**
- * Datos iniciales del catálogo.
- *
- * - Categorías: las 5 definitivas (los slugs deben coincidir con el frontend).
- * - Productos: EJEMPLOS realistas para desarrollo usando URLs externas (Unsplash).
- *
- * Requiere que el enum TipoEspacio tenga: OFICINA, HOGAR, SALON_BELLEZA, CONSULTORIO.
- */
+
+
+
+
+
+
+
+
 @Configuration
 @RequiredArgsConstructor
 public class DataSeedConfig {
@@ -31,14 +31,14 @@ public class DataSeedConfig {
     @Bean
     public CommandLineRunner cargarDatosIniciales() {
         return args -> {
-            // Solo inserta si la base de datos está vacía
+
             if (categoriaRepository.count() > 0) {
                 return;
             }
 
-            // ============================================================
-            // 1. CATEGORÍAS (slugs fijos: el frontend depende de ellos)
-            // ============================================================
+
+
+
             Categoria escritorios = categoriaRepository.save(categoria(
                     "Escritorios", "escritorios",
                     "Escritorios y estaciones de trabajo para oficinas, gerencias y espacios en casa."));
@@ -59,11 +59,11 @@ public class DataSeedConfig {
                     "Camillas", "camillas",
                     "Camillas para consultorios, spas y centros de estética."));
 
-            // ============================================================
-            // 2. PRODUCTOS DE EJEMPLO CON IMÁGENES DE UNSPLASH
-            // ============================================================
 
-            // ---------- Escritorios ----------
+
+
+
+
             productoRepository.save(producto(
                     "Escritorio Ejecutivo en L",
                     "Escritorio gerencial en forma de L con módulo de gavetas con cerradura y pasacables integrado.",
@@ -89,7 +89,7 @@ public class DataSeedConfig {
                     "1.00m x 0.50m x 0.75m",
                     "https://images.unsplash.com/photo-1517502884422-41eaead166d4?q=80&w=800"));
 
-            // ---------- Sillería ----------
+
             productoRepository.save(producto(
                     "Silla Ejecutiva Malla Transpirable",
                     "Silla con soporte lumbar ajustable, brazos 3D, cabecero y mecanismo sincrónico.",
@@ -114,7 +114,7 @@ public class DataSeedConfig {
                     "0.55m x 0.55m x 0.82m",
                     "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?q=80&w=800"));
 
-            // ---------- Comedores ----------
+
             productoRepository.save(producto(
                     "Juego de Comedor 4 Puestos",
                     "Mesa rectangular con cuatro sillas tapizadas, ideal para apartamentos.",
@@ -139,7 +139,7 @@ public class DataSeedConfig {
                     "1.80m x 0.80m x 0.75m",
                     "https://images.unsplash.com/photo-1577140917170-285929fb55b7?q=80&w=800"));
 
-            // ---------- Peinadores ----------
+
             productoRepository.save(producto(
                     "Peinador Profesional con Espejo",
                     "Estación de trabajo para salón con espejo amplio, repisa y gavetas para herramientas.",
@@ -164,7 +164,7 @@ public class DataSeedConfig {
                     "1.00m x 0.40m x 1.45m",
                     "https://images.unsplash.com/photo-1595514535310-82d87e0bd8fb?q=80&w=800"));
 
-            // ---------- Camillas ----------
+
             productoRepository.save(producto(
                     "Camilla Fija para Consultorio",
                     "Camilla de examen con cabecera reclinable y portarrollos para papel.",
@@ -193,9 +193,9 @@ public class DataSeedConfig {
         };
     }
 
-    // ================================================================
-    // Helpers
-    // ================================================================
+
+
+
 
     private Categoria categoria(String nombre, String slug, String descripcion) {
         return Categoria.builder()
@@ -220,7 +220,7 @@ public class DataSeedConfig {
                 .build();
 
         for (String url : imagenesUrl) {
-            // Ahora guardamos la URL completa directamente
+
             producto.agregarImagen(ProductoImagen.builder()
                     .urlImagen(url)
                     .build());
