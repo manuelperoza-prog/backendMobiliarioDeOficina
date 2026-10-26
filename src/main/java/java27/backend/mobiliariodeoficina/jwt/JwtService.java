@@ -29,18 +29,26 @@ public class JwtService {
     private String secretKey;
 
     public String getToken(UserDetails user) {
-        return getToken(new HashMap<>(), user);
+        Map<String, Object> extraClaims = new HashMap<>();
+
+        // Inyectar el rol extrayéndolo de las autoridades del UserDetails
+        if (user.getAuthorities() != null && !user.getAuthorities().isEmpty()) {
+            String rol = user.getAuthorities().iterator().next().getAuthority();
+            extraClaims.put("rol", rol);
+        }
+
+        return getToken(extraClaims, user);
     }
 
     private String getToken(Map<String, Object> extraClaims, UserDetails user) {
         return Jwts
-        .builder()
-        .claims(extraClaims)
-        .subject(user.getUsername())
-        .issuer(TOKEN_ISSUER)
-        .expiration(new Date(System.currentTimeMillis() + TOKEN_VALIDITY_MILLIS))
-        .signWith(getKey())
-        .compact();
+                .builder()
+                .claims(extraClaims)
+                .subject(user.getUsername())
+                .issuer(TOKEN_ISSUER)
+                .expiration(new Date(System.currentTimeMillis() + TOKEN_VALIDITY_MILLIS))
+                .signWith(getKey())
+                .compact();
     }
 
     private Key getKey() {
@@ -59,11 +67,11 @@ public class JwtService {
 
     private Claims getAllClaims(String token){
         return Jwts
-            .parser()
-            .verifyWith((SecretKey) getKey())
-            .build()
-            .parseSignedClaims(token)
-            .getPayload();
+                .parser()
+                .verifyWith((SecretKey) getKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
     }
 
     public <T> T getClaim(String token, Function<Claims,T> claimsResolver)
@@ -81,5 +89,4 @@ public class JwtService {
     {
         return getExpiration(token).before(new Date());
     }
-
 }

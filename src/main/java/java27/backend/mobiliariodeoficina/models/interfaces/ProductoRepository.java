@@ -24,4 +24,6 @@ public interface ProductoRepository extends JpaRepository<Producto, Long> {
     // Buscador de texto libre para el navbar del frontend
     @Query("SELECT p FROM Producto p WHERE LOWER(p.nombre) LIKE LOWER(CONCAT('%', :termino, '%'))")
     List<Producto> buscarPorNombre(@Param("termino") String termino);
+
+    boolean existsByCategoriaId(Long idCategoria);
 }
